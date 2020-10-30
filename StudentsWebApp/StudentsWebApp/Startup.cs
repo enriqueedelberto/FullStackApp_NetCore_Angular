@@ -28,9 +28,16 @@ namespace StudentsWebApp
         public void ConfigureServices(IServiceCollection services)
         {
           services.AddDbContext<Student_DBContext>(); 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddCors( c=> {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1); 
+            
+            //Add cors Policy globally
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
             });
         }
 
@@ -46,9 +53,14 @@ namespace StudentsWebApp
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection(); 
             app.UseMvc();
-            app.UseCors(options => options.AllowAnyOrigin());
+             
+             
+
+            app.UseCors("CorsPolicy");
+
+
         }
     }
 }
