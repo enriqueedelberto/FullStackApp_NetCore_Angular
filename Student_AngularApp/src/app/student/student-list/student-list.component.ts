@@ -38,6 +38,8 @@ export class StudentListComponent implements OnInit {
 
   ngOnInit() {
     this.dataStudents = [];
+
+    this.getStudents();
   }
 
 
@@ -83,8 +85,15 @@ export class StudentListComponent implements OnInit {
     this.router.navigate(['/student/new']);
   }
 
-  delete() {
+  delete(Id: string) {
+    this.appService.deleteStudent(Id).subscribe(
+      res => {
+        this.showMessage.showMessage(`Student ${Id} was deleted.`, 'Aceptar');
 
+        this.getStudents();
+      }, error => {
+        this.showMessage.showMessage(error, 'Aceptar');
+       });
   }
 
 }

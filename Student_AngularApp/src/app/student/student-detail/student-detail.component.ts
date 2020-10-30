@@ -15,7 +15,9 @@ export class StudentDetailComponent implements OnInit {
   private NUMBER_PATTERN = `^[0-9]*$`;
   public MAX_LENGTH_WORDS = 200;
   public MAX_LENGTH_ID = 100;
-  public Id_Student: string;
+  public idStudent: string;
+  public readOnly: boolean;
+
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -28,6 +30,7 @@ export class StudentDetailComponent implements OnInit {
 
   ngOnInit() {
     this.getDetail();
+    this.readOnly = true;
   }
 
 
@@ -49,18 +52,20 @@ export class StudentDetailComponent implements OnInit {
           return;
          }
 
-        this.Id_Student = params.id;
+        this.idStudent = params.id;
 
 
-        this.appService.getStudentDetail(this.Id_Student).subscribe(res => {
+        this.appService.getStudentDetail(this.idStudent).subscribe(res => {
 
-          this.detailForm.get('Id').setValue(res.Id);
-          this.detailForm.get('Username').setValue(res.Username);
-          this.detailForm.get('Firstname').setValue(res.FirstName);
-          this.detailForm.get('Lastname').setValue(res.LastName);
-          this.detailForm.get('Age').setValue(res.Age);
-          this.detailForm.get('Career').setValue(res.Career);
+          this.detailForm.get('Id').setValue(res.id);
+          this.detailForm.get('Username').setValue(res.username);
+          this.detailForm.get('Firstname').setValue(res.firstName);
+          this.detailForm.get('Lastname').setValue(res.lastName);
+          this.detailForm.get('Age').setValue(res.age);
+          this.detailForm.get('Career').setValue(res.career);
         });
+
+        this.detailForm.get('Id').disable();
 
       });
 
@@ -73,18 +78,40 @@ export class StudentDetailComponent implements OnInit {
     }
 
 
-    let studentToSave: Student = {
-      Id: this.detailForm.get('Id').value,
-      Username: this.detailForm.get('Username').value,
-      FirstName: this.detailForm.get('Firstname').value,
-      LastName: this.detailForm.get('Lastname').value,
-      Age: this.detailForm.get('Age').value,
-      Career: this.detailForm.get('Career').value,
+    const studentToSave: Student = {
+      id: this.detailForm.get('Id').value,
+      username: this.detailForm.get('Username').value,
+      firstName: this.detailForm.get('Firstname').value,
+      lastName: this.detailForm.get('Lastname').value,
+      age: this.detailForm.get('Age').value,
+      career: this.detailForm.get('Career').value,
 
     };
 
-    //When everything is OK, redirect
-    this.router.navigate(['/student/list']);
+    if (this.idStudent) {
+      this.appService.updateStudent(this.idStudent, studentToSave).subscribe(
+        res => {
+          this.showMessage.showMessage(`Student ${this.idStudent} was updated.`, 'Aceptar');
+          this.router.navigate(['/student/list']);
+
+        }, error => {
+          this.showMessage.showMessage(error, 'Aceptar');
+         });
+
+      return;
+    }
+
+
+    this.appService.saveStudent(  studentToSave).subscribe(
+      res => {
+        this.showMessage.showMessage(`Student ${studentToSave.id} was saved.`, 'Aceptar');
+        //When everything is OK, redirect
+         this.router.navigate(['/student/list']);
+      }, error => {
+        this.showMessage.showMessage(error, 'Aceptar');
+       });
+
+
   }
 
 

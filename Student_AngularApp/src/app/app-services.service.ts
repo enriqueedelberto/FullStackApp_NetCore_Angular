@@ -38,15 +38,15 @@ export class AppService {
   }
 
   saveStudent(student: Student) {
-    const url = `${this.apiUrl}student/${student.Id}`;
+    const url = `${this.apiUrl}student`;
 
     return this.http.post<any>(url, student,{
       headers: this.headers
     });
   }
 
-  updateStudent(student: Student) {
-    const url = `${this.apiUrl}student/${student.Id}`;
+  updateStudent(Id: string ,student: Student) {
+    const url = `${this.apiUrl}student/${Id}`;
 
     return this.http.put<any>(url, student,{
       headers: this.headers

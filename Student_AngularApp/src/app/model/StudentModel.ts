@@ -1,8 +1,8 @@
 export interface Student {
-  Id: string;
-  Username: string;
-  FirstName: string;
-  LastName: string;
-  Age: string;
-  Career: string;
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  age: string;
+  career: string;
 }

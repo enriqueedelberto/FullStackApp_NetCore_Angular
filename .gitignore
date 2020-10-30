@@ -304,3 +304,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/StudentsWebApp/StudentsWebApp/runtimes
+/StudentsWebApp/StudentsWebApp/StudentsWebApp.deps.json
+/StudentsWebApp/StudentsWebApp/Properties/PublishProfiles
