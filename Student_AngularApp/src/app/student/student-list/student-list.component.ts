@@ -99,12 +99,14 @@ export class StudentListComponent implements OnInit {
   }
 
   delete(Id: string) {
+    this.disabled = true;
     this.appService.deleteStudent(Id).subscribe(
       res => {
         this.showMessage.showMessage(`Student ${Id} was deleted.`, 'Ok');
-
+        this.disabled = false;
         this.getStudents();
       }, error => {
+        this.disabled = false;
         this.showMessage.showMessage(error.message, 'Ok');
        });
   }
