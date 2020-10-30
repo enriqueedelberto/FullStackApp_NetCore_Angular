@@ -29,6 +29,9 @@ namespace StudentsWebApp
         {
           services.AddDbContext<Student_DBContext>(); 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddCors( c=> {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +48,7 @@ namespace StudentsWebApp
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseCors(options => options.AllowAnyOrigin());
         }
     }
 }
