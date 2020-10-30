@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
     );
 
   constructor(private breakpointObserver: BreakpointObserver,
-    private router: Router) { }
+              private router: Router) { }
 
   navModel;
 
@@ -45,25 +45,12 @@ export class HomeComponent implements OnInit {
 
   logout(): void {
     // localStorage.removeItem('JWT');
-    this.router.navigate(['login']);
+    this.router.navigate(['dashboard']);
   }
 
   navigateTo(link) {
     this.router.navigate([link]);
   }
 
-  getInfoFromToken() {
-    // let loggedInUser: UserModel;
-    // this.appService.getUserData().subscribe(res => {
-    //   this.showLoadingBar = false;
 
-    //   loggedInUser = res.message;
-    //   this.currentUser = loggedInUser;
-
-
-    // }, err => {
-    //   console.log(err);
-    // });
-
-  }
 }

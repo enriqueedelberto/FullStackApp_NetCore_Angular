@@ -28,6 +28,9 @@ export class StudentListComponent implements OnInit {
 
   private NUMBER_PATTERN = `^[0-9]*$`;
   public MAX_LENGTH_ID = 100;
+  public disabled = false;
+
+
   constructor(private formBuilder: FormBuilder,
               private showMessage: ShowMessagesService,
               private router: Router,
@@ -52,24 +55,34 @@ export class StudentListComponent implements OnInit {
   getStudents() {
 
     if (this.filterForm.invalid) {
-      this.showMessage.showMessage('Debe verificar los campos señalados', 'Aceptar');
+      this.showMessage.showMessage('Debe verificar los campos señalados', 'Ok');
       return;
     }
 
 
+    this.disabled = true;
+    this.dataStudents = [];
     const Id = this.filterForm.get('Id').value;
     if (Id) {
       this.appService.getStudentDetail(Id).subscribe(res => {
         this.dataStudents = [res];
+
+        this.disabled = false;
+
       }, error => {
-        this.showMessage.showMessage(error, 'Aceptar');
+        this.disabled = false;
+        this.showMessage.showMessage(error, 'Ok');
       });
+
+      return;
     }
 
     this.appService.getStudents().subscribe(res => {
       this.dataStudents = res;
+      this.disabled = false;
     }, error => {
-      this.showMessage.showMessage(error, 'Aceptar');
+      this.disabled = false;
+      this.showMessage.showMessage(error.message, 'Ok');
     });
   }
 
@@ -88,11 +101,11 @@ export class StudentListComponent implements OnInit {
   delete(Id: string) {
     this.appService.deleteStudent(Id).subscribe(
       res => {
-        this.showMessage.showMessage(`Student ${Id} was deleted.`, 'Aceptar');
+        this.showMessage.showMessage(`Student ${Id} was deleted.`, 'Ok');
 
         this.getStudents();
       }, error => {
-        this.showMessage.showMessage(error, 'Aceptar');
+        this.showMessage.showMessage(error.message, 'Ok');
        });
   }
 

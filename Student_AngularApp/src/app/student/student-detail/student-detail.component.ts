@@ -17,7 +17,7 @@ export class StudentDetailComponent implements OnInit {
   public MAX_LENGTH_ID = 100;
   public idStudent: string;
   public readOnly: boolean;
-
+  public disabled = false;
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -73,7 +73,7 @@ export class StudentDetailComponent implements OnInit {
 
   save() {
     if (this.detailForm.invalid) {
-      this.showMessage.showMessage('Debe verificar los campos señalados', 'Aceptar');
+      this.showMessage.showMessage('Please, verify the fields', 'Ok');
       return;
     }
 
@@ -88,14 +88,21 @@ export class StudentDetailComponent implements OnInit {
 
     };
 
+    this.detailForm.disable();
+
+    this.disabled = true;
+
     if (this.idStudent) {
       this.appService.updateStudent(this.idStudent, studentToSave).subscribe(
         res => {
+
           this.showMessage.showMessage(`Student ${this.idStudent} was updated.`, 'Aceptar');
           this.router.navigate(['/student/list']);
 
         }, error => {
-          this.showMessage.showMessage(error, 'Aceptar');
+          this.disabled = false;
+          this.detailForm.enable();
+          this.showMessage.showMessage(error.message, 'Aceptar');
          });
 
       return;
@@ -104,11 +111,12 @@ export class StudentDetailComponent implements OnInit {
 
     this.appService.saveStudent(  studentToSave).subscribe(
       res => {
-        this.showMessage.showMessage(`Student ${studentToSave.id} was saved.`, 'Aceptar');
-        //When everything is OK, redirect
-         this.router.navigate(['/student/list']);
+        this.showMessage.showMessage(`Student ${studentToSave.id} was saved.`, 'Ok');
+        this.router.navigate(['/student/list']);
       }, error => {
-        this.showMessage.showMessage(error, 'Aceptar');
+        this.disabled = false;
+        this.detailForm.enable();
+        this.showMessage.showMessage(error.message, 'Ok');
        });
 
 
