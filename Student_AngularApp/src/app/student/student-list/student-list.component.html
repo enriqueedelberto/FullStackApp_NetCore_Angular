@@ -42,13 +42,13 @@
 
                 <!-- Delete -->
                 <button mat-icon-button *ngIf="selection.selected.length" (click)="delete(selection.selected[0].id)">
-                  <mat-icon color="primary" matTooltip="Edit" matTooltipPosition="left">delete_forever</mat-icon>
+                  <mat-icon color="primary" matTooltip="Delete" matTooltipPosition="left">delete_forever</mat-icon>
                 </button>
 
 
                 <!-- Create -->
                 <button mat-icon-button (click)="create()" [disabled]="disabled">
-                  <mat-icon color="primary" matTooltip="Edit" matTooltipPosition="left" appHttpDisbledButton>add_circle</mat-icon>
+                  <mat-icon color="primary" matTooltip="Create" matTooltipPosition="left" appHttpDisbledButton>add_circle</mat-icon>
                 </button>
             </mat-card-actions>
             <mat-divider [inset]="true"></mat-divider>
