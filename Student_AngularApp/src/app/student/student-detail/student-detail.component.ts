@@ -99,10 +99,10 @@ export class StudentDetailComponent implements OnInit {
           this.showMessage.showMessage(`Student ${this.idStudent} was updated.`, 'Aceptar');
           this.router.navigate(['/student/list']);
 
-        }, error => {
+	}, ({error}) => {
           this.disabled = false;
           this.detailForm.enable();
-          this.showMessage.showMessage(error.message, 'Aceptar');
+          this.showMessage.showMessage(error, 'Aceptar');
          });
 
       return;
@@ -113,10 +113,10 @@ export class StudentDetailComponent implements OnInit {
       res => {
         this.showMessage.showMessage(`Student ${studentToSave.id} was saved.`, 'Ok');
         this.router.navigate(['/student/list']);
-      }, error => {
+      }, ({error}) => {
         this.disabled = false;
         this.detailForm.enable();
-        this.showMessage.showMessage(error.message, 'Ok');
+        this.showMessage.showMessage(error , 'Ok');
        });
 
 

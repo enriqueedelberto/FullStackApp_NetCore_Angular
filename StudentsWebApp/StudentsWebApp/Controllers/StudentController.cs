@@ -97,6 +97,12 @@ namespace StudentsWebApp.Controllers
                     return NotFound();
                 }
 
+                var studentCreated = _context.Student.FirstOrDefault(s => s.Username.Equals(student.Username));
+                if (studentCreated != null)
+                {
+                    return BadRequest("The Username must be unique");
+                }
+
                 studentCurrent.Username = student.Username;
                 studentCurrent.FirstName = student.FirstName;
                 studentCurrent.LastName = student.LastName;
