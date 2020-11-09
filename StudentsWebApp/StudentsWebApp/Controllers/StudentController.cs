@@ -49,9 +49,19 @@ namespace StudentsWebApp.Controllers
         {
             try
             {
+               
+
                 if (student == null)
                 {
                     return BadRequest();
+                }
+
+                var studentCreated = _context.Student.FirstOrDefault(s => s.Id == student.Id 
+                                                                     || s.Username.Equals(student.Username));
+
+                if(studentCreated != null)
+                {
+                    return BadRequest("The Id and Username must be unique");
                 }
 
                 _context.Student.Add(student);
